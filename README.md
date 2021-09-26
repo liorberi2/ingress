@@ -129,7 +129,50 @@ CMD ["cron", "-f"]
 *****************************************
 ## docker build -t job-a .
  
-## docker run -dp 8080:8080 job-s
+## docker run -dp 8080:8080 job-a
 
 Remember the -d and -p flags? We’re running the new container in “detached” mode (in the background) and creating a mapping between the host’s port 3000 to the container’s port 3000. Without the port mapping, we wouldn’t be able to access the application.
+
+***********************************
+
+5. Create a Cronjob in the “jobs” namespace called “job-cross” that run an ubuntu container and run the command “kubectl get all —all-namespaces” (ensure it have only get access permissions for all namespaces)
+
+ job-cross file:
+ * * * * * root kubectl get all --all-namespaces
+
+
+*******************************************
+FROM ubuntu:latest
+
+
+# Add crontab file in the cron directory
+ADD job-cross /etc/cron.d/job-cross
+
+
+RUN apt-get update && apt-get -y install cron
+
+# Copy hello-cron file to the cron.d directory
+COPY job-cross /etc/cron.d/job-cross
+
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/job-cross
+
+# Apply cron job
+RUN crontab /etc/cron.d/job-cross
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+# Run the command on container startup
+CMD ["cron", "-f"]
+
+*******************************
+
+## docker build -t job-cross .
+ 
+## docker run -dp 8090:8090 job-cross
+
+Remember the -d and -p flags? We’re running the new container in “detached” mode (in the background) and creating a mapping between the host’s port 3000 to the container’s port 3000. Without the port mapping, we wouldn’t be able to access the application.
+
+
 
