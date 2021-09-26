@@ -99,3 +99,34 @@ kubectl config set-context --current --namespace=jobs
 
 4. Create a Cronjob in the “jobs” namespace called “job-a” that run an ubuntu container 
 and run the command “kubectl get all -n namespace-a” (ensure it have only get access permissions for the namespace “namespace-a”)
+
+Dockerfile
+************************************************
+* FROM ubuntu:latest
+
+
+# Add crontab file in the cron directory
+ADD job-a /etc/cron.d/job-a
+
+
+RUN apt-get update && apt-get -y install cron
+
+# Copy hello-cron file to the cron.d directory
+COPY job-a /etc/cron.d/job-a
+
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/job-a
+
+# Apply cron job
+RUN crontab /etc/cron.d/job-a
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+# Run the command on container startup
+CMD ["cron", "-f"]
+
+*****************************************
+## docker build -t job-a .
+ 
+## docker run -dp 8080:8080 job-s
