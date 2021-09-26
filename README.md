@@ -100,6 +100,12 @@ kubectl config set-context --current --namespace=jobs
 4. Create a Cronjob in the “jobs” namespace called “job-a” that run an ubuntu container 
 and run the command “kubectl get all -n namespace-a” (ensure it have only get access permissions for the namespace “namespace-a”)
 
+
+cron file:
+
+job-a
+* * * * * root kubectl get all -n namespaces-a >> /root/job-a
+
 Dockerfile
 ************************************************
 * FROM ubuntu:latest
@@ -136,11 +142,15 @@ Remember the -d and -p flags? We’re running the new container in “detached�
 ***********************************
 
 5. Create a Cronjob in the “jobs” namespace called “job-cross” that run an ubuntu container and run the command “kubectl get all —all-namespaces” (ensure it have only get access permissions for all namespaces)
-
+****************************************
  job-cross file:
- * * * * * root kubectl get all --all-namespaces
+ 
+
+ * * * * * root kubectl get all --all-namespaces >> /root/job-cross
 
 
+***********************
+Dockerfile
 *******************************************
 FROM ubuntu:latest
 
@@ -174,5 +184,13 @@ CMD ["cron", "-f"]
 
 Remember the -d and -p flags? We’re running the new container in “detached” mode (in the background) and creating a mapping between the host’s port 3000 to the container’s port 3000. Without the port mapping, we wouldn’t be able to access the application.
 
+$$$$$$$$$$$$$$$$$$$$$$$$
 
+issues: 
+invoke-rc.d: policy-rc.d denied execution of start.
 
+resolved by: 
+printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
+
+connect to docker:
+docker exec -it 451b116f86c6 /bin/bash
