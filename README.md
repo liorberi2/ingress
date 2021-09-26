@@ -82,11 +82,12 @@ Create Second Deployment
               number: 8080
 * Apply the changes:
 ## kubectl apply -f example-ingress.yaml
-Test Your Ingress:
+
+* Test Access the 2nd version of the Hello World app.
 ## curl hello-world.info
 ## ip:port
 
-* Access the 2nd version of the Hello World app.
+* Test Access the 2nd version of the Hello World app.
 ## curl hello-world.info/v2
 ## ip:port
 
