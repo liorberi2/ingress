@@ -130,3 +130,6 @@ CMD ["cron", "-f"]
 ## docker build -t job-a .
  
 ## docker run -dp 8080:8080 job-s
+
+Remember the -d and -p flags? We’re running the new container in “detached” mode (in the background) and creating a mapping between the host’s port 3000 to the container’s port 3000. Without the port mapping, we wouldn’t be able to access the application.
+
