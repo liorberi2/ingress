@@ -188,7 +188,16 @@ Remember the -d and -p flags? We’re running the new container in “detached�
 
 
 *****************************
-cron job
+certificate keys:
+
+in k3s the certificate keys are in: 
+
+/var/lib/rancher/k3s/server/tls
+
+create private key:
+openssl genrsa -out lior.key 2048
+
+create certificate signing request (CSR) :
 
 
 
