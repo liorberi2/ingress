@@ -201,8 +201,9 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 3.  create certificate signing request (CSR) :
     openssl req -new  -key lior.key -out lior.csr -subj "/CN=lior/O=devs"
 
+4.  create certificate from CSR using cluster authorithy: 
 
-
+openssl x509 -req -in lior.csr -CA /var/lib/rancher/k3s/server/tls/client-ca.crt -CAkey /var/lib/rancher/k3s/server/tls/client-ca.key -CAcreateserial -out lior.crt -days 500
 
 
 $$$$$$$$$$$$$$$$$$$$$$$$
