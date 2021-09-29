@@ -187,17 +187,20 @@ Remember the -d and -p flags? We’re running the new container in “detached�
 
 
 
-*****************************
-certificate keys:
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-in k3s the certificate keys are in: 
+** certificate keys: **
 
-/var/lib/rancher/k3s/server/tls
+1.  in k3s the certificate keys are in: 
 
-create private key:
-openssl genrsa -out lior.key 2048
+    /var/lib/rancher/k3s/server/tls
 
-create certificate signing request (CSR) :
+2.  create private key:
+    openssl genrsa -out lior.key 2048
+
+3.  create certificate signing request (CSR) :
+    openssl req -new  -key lior.key -out lior.csr -subj "/CN=lior/O=devs"
+
 
 
 
