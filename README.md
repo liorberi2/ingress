@@ -208,12 +208,19 @@ openssl x509 -req -in lior.csr -CA /var/lib/rancher/k3s/server/tls/client-ca.crt
 5.  Add new credentials to kubectl:
     kubectl config set-credentials lior --client-certificate=lior.crt --client-key=lior.key --embed-certs=true
   
-  
+ 
+    Resource requests:
+    POST	create
+    GET, HEAD	get (for individual resources), list (for collections, including full object content), watch (for watching an individual resource or collection of resources)
+    PUT	update
+    PATCH	patch
+    DELETE	delete (for individual resources), deletecollection (for collections)
   
   debug:
   
   kubectl config view -o json
-
+  kubectl config get-clusters
+  kubectl auth can-i create deployments --namespace dev
 
 
 $$$$$$$$$$$$$$$$$$$$$$$$
