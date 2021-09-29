@@ -205,6 +205,16 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 openssl x509 -req -in lior.csr -CA /var/lib/rancher/k3s/server/tls/client-ca.crt -CAkey /var/lib/rancher/k3s/server/tls/client-ca.key -CAcreateserial -out lior.crt -days 500
 
+5.  Add new credentials to kubectl:
+    kubectl config set-credentials lior --client-certificate=lior.crt --client-key=lior.key --embed-certs=true
+  
+  
+  
+  debug:
+  
+  kubectl config view -o json
+
+
 
 $$$$$$$$$$$$$$$$$$$$$$$$
 
